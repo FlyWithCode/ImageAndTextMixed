@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "19599FA41EC42ECF0016AD29"
+               BuildableName = "ImageAndTextMixed.app"
+               BlueprintName = "ImageAndTextMixed"
+               ReferencedContainer = "container:ImageAndTextMixed.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -12,7 +28,36 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "19599FBD1EC42ECF0016AD29"
+               BuildableName = "ImageAndTextMixedTests.xctest"
+               BlueprintName = "ImageAndTextMixedTests"
+               ReferencedContainer = "container:ImageAndTextMixed.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "19599FC81EC42ECF0016AD29"
+               BuildableName = "ImageAndTextMixedUITests.xctest"
+               BlueprintName = "ImageAndTextMixedUITests"
+               ReferencedContainer = "container:ImageAndTextMixed.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "19599FA41EC42ECF0016AD29"
+            BuildableName = "ImageAndTextMixed.app"
+            BlueprintName = "ImageAndTextMixed"
+            ReferencedContainer = "container:ImageAndTextMixed.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -26,6 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "19599FA41EC42ECF0016AD29"
+            BuildableName = "ImageAndTextMixed.app"
+            BlueprintName = "ImageAndTextMixed"
+            ReferencedContainer = "container:ImageAndTextMixed.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -35,6 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "19599FA41EC42ECF0016AD29"
+            BuildableName = "ImageAndTextMixed.app"
+            BlueprintName = "ImageAndTextMixed"
+            ReferencedContainer = "container:ImageAndTextMixed.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
