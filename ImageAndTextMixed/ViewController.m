@@ -82,6 +82,7 @@
     [self.view addSubview:self.textScroller];
     [self setRightBarButtonItem];
     [self configUI];
+    
 }
 
 
