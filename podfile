@@ -8,6 +8,7 @@ target 'ImageAndTextMixed' do
     pod 'Masonry'
     pod 'SDWebImage'
     pod 'libextobjc'
+
 end
 
 target 'ImageAndTextMixedTests' do

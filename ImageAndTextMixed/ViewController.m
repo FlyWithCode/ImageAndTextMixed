@@ -20,8 +20,6 @@
 #define EditePothoDefHeight 100
 #define MoreHeight 80
 
-
-
 #import "ViewController.h"
 #import "GAEditPhoto.h"
 #import "GAXMLModel.h"
@@ -67,26 +65,16 @@
     self.title = @"图文混排";
     self.view.backgroundColor = [UIColor whiteColor];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.insertImageArray = [[NSMutableArray alloc]init];
-    self.keyWidow = [UIApplication sharedApplication].keyWindow;
-    _isEditeTextView = NO;
-    _iamgeViewTag = MaxTag;
-    _deleTag = MaxTag*2;
-    _isShowKeyBoard = NO;
-    _currentScrheight = 0;
-    //需要创建默认texvie时就设为yes
-    _isDeaultTextView = YES;
-    _isFirst = YES;
-    self.insertObjecArray = [[NSMutableArray alloc]init];
-    self.defaultTextViewArray = [[NSMutableArray alloc]init];
-    [self.view addSubview:self.textScroller];
+    [self initData];
     [self setRightBarButtonItem];
     [self configUI];
-    
+    [self addKeyBordNotifiy];
 }
 
+#pragma mark -- UI
 
 -(void)configUI{
+    [self.view addSubview:self.textScroller];
     @weakify(self);
     [self.textScroller mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -101,6 +89,46 @@
     self.placeholder.hidden = NO;
     [self.defaultTextViewArray addObject:defaultTextView];
     [self.view addSubview:self.inputView];
+}
+
+
+- (void)initData {
+    self.insertImageArray = [[NSMutableArray alloc]init];
+    self.keyWidow = [UIApplication sharedApplication].keyWindow;
+    _isEditeTextView = NO;
+    _iamgeViewTag = MaxTag;
+    _deleTag = MaxTag*2;
+    _isShowKeyBoard = NO;
+    _currentScrheight = 0;
+    //需要创建默认texvie时就设为yes
+    _isDeaultTextView = YES;
+    _isFirst = YES;
+    self.insertObjecArray = [[NSMutableArray alloc]init];
+    self.defaultTextViewArray = [[NSMutableArray alloc]init];
+}
+
+-(void)setRightBarButtonItem{
+    UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
+    rightButton.backgroundColor=[UIColor clearColor];
+    [rightButton addTarget:self action:@selector(onRightBarItemClicked) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton setTitle:@"点击添加图片" forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+   
+}
+
+
+
+#pragma mark -- Action
+
+-(void)onRightBarItemClicked{
+    //相册
+    UIImagePickerController *pick = [[UIImagePickerController alloc]init];
+    pick.delegate = self;
+    [self presentViewController:pick animated:YES completion:nil];
+}
+
+- (void)addKeyBordNotifiy {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -110,19 +138,7 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardWillChageFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    
 }
-
--(void)setRightBarButtonItem{
-    UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
-    rightButton.backgroundColor=[UIColor clearColor];
-    [rightButton addTarget:self action:@selector(onRightBarItemClicked) forControlEvents:UIControlEventTouchUpInside];
-    [rightButton setTitle:@"图片" forState:UIControlStateNormal];
-    [rightButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-   
-}
-
 
 - (void)removeobserverForKeyBord{
     
@@ -138,18 +154,19 @@
                                                   object:nil];
 }
 
-
--(void)onRightBarItemClicked{
-    //相册
-    UIImagePickerController *pick = [[UIImagePickerController alloc]init];
-    pick.delegate = self;
-    [self presentViewController:pick animated:YES completion:nil];
-}
-
-
 #pragma mark--CreatCompoment
 
-- (GADetialTextView * )creatTxetViewWithObject:(id)object text:(NSString *)text type:(ObjectType)type{
+/**
+ 创建文本控件
+
+ @param object 参照对象
+ @param text 文本
+ @param type 类型
+ @return GADetialTextView
+ */
+- (GADetialTextView * )creatTxetViewWithObject:(id)object
+                                          text:(NSString *)text
+                                          type:(ObjectType)type {
     GADetialTextView *textView = [[GADetialTextView alloc]init];
     [textView addSubview:self.placeholder];
     textView.textAlignment = NSTextAlignmentLeft;
@@ -241,11 +258,25 @@
                 [self changeTextStrollerContentSizeWithHeight:height];
             }
         }
-        
     }
 }
 
-- (GAEditPhoto *)creatPhotoViewWithObject:(id)object iamgeSize:(CGSize)size model:(GAXMLModel *)model image:(UIImage*)image type:(ObjectType)type{
+
+/**
+ 创建图片控件
+
+ @param object 参照对象
+ @param size 图片size
+ @param model GAXMLModel
+ @param image 图片
+ @param type 类型
+ @return GAEditPhoto
+ */
+- (GAEditPhoto *)creatPhotoViewWithObject:(id)object
+                                iamgeSize:(CGSize)size
+                                    model:(GAXMLModel *)model
+                                    image:(UIImage*)image
+                                     type:(ObjectType)type {
     NSString *url = model.src;
     GAEditPhoto *showPhoto = [[GAEditPhoto alloc]init];
     showPhoto.tag = _iamgeViewTag;
@@ -383,7 +414,7 @@
     [self getInserObjectLastObjectToChangeContensize];
 }
 
-#pragma  mark--DeleteCompoment
+#pragma mark--DeleteCompoment
 
 - (void)deletePhoto:(id)sender{
     UIButton *deleButton = (UIButton *)sender;
@@ -809,34 +840,6 @@
     [scrollView endEditing:YES];
 }
 
-
-#pragma mark--imageByApplyingAlpha
-
-//改变图片透明度
-- (UIImage *)imageByApplyingAlpha:(CGFloat)alpha  image:(UIImage*)image
-{
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0f);
-    
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGRect area = CGRectMake(0, 0, image.size.width, image.size.height);
-    
-    CGContextScaleCTM(ctx, 1, -1);
-    CGContextTranslateCTM(ctx, 0, -area.size.height);
-    
-    CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
-    
-    CGContextSetAlpha(ctx, alpha);
-    
-    CGContextDrawImage(ctx, area, image.CGImage);
-    
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
-
-
 #pragma mark--ResetTextStyle
 
 - (void)resetTextStyle:(UITextView *)texview{
@@ -847,7 +850,7 @@
 }
 
 
-#pragma mark--keyboard
+#pragma mark--keyboardAction
 
 - (void)keyboardWillShow:(NSNotification *)aNotification{
     //_isEditeTextView = YES;
@@ -981,7 +984,6 @@
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
 }
-
 
 
 @end
